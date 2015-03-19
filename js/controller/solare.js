@@ -8,6 +8,7 @@ angular.module('greenEnergySaver')
 
 angular.module('greenEnergySaver')
   .controller('previsioneController', function($scope, $http) {
+
   $http.get('http://api.openweathermap.org/data/2.5/forecast/hourly?q=Trento&mode=json').
     success(function(data, status, headers, config) {
     
@@ -70,40 +71,32 @@ angular.module('greenEnergySaver')
           datasets: [
               {
                   label: "Sun Level",
-                  fillColor: "rgba(220,220,220,0.5)",
+                  fillColor: "rgba(0,220,0,0.5)",
                   strokeColor: "rgba(220,220,220,0.8)",
                   highlightFill: "rgba(220,220,220,0.75)",
                   highlightStroke: "rgba(220,220,220,1)",
                   data: []
-              }
-          ]
-      };
-      var data02 = {
-          labels: [],
-          datasets: [
+              }/*,
               {
-                  label: "Sun Level",
+                  label: "Clouds",
                   fillColor: "rgba(220,220,220,0.5)",
                   strokeColor: "rgba(220,220,220,0.8)",
                   highlightFill: "rgba(220,220,220,0.75)",
                   highlightStroke: "rgba(220,220,220,1)",
                   data: []
-              }
-          ]
-      };
-      var data03 = {
-          labels: [],
-          datasets: [
+              },
               {
-                  label: "Sun Level",
-                  fillColor: "rgba(220,220,220,0.5)",
+                  label: "Sun Phase",
+                  fillColor: "rgba(220,220,0,0.5)",
                   strokeColor: "rgba(220,220,220,0.8)",
                   highlightFill: "rgba(220,220,220,0.75)",
                   highlightStroke: "rgba(220,220,220,1)",
                   data: []
-              }
+              },*/
           ]
       };
+      var data02 = jQuery.extend(true, {}, data01);
+      var data03 = jQuery.extend(true, {}, data01);
       var data = [data01,data02,data03];
       var dataIndex = 0;
       var currentDay = $scope.hours[0].time.getDay();
@@ -113,8 +106,8 @@ angular.module('greenEnergySaver')
         console.log(currentDay);
         if(currentDay!=hour.time.getDay())
         {
-          console.log(">"+currentDay +"!=!" +hour.time);
-          console.log("<"+dataIndex)
+          //console.log(">"+currentDay +"!=!" +hour.time);
+          //console.log("<"+dataIndex)
           currentDay=hour.time.getDay();
           dataIndex++;
           if(dataIndex>2)
@@ -122,11 +115,21 @@ angular.module('greenEnergySaver')
         }
         data[dataIndex].labels.push(hour.time.getHours()+" - " + (hour.time.getHours()+3));
         data[dataIndex].datasets[0].data.push(hour.powerLevel);
+        //data[dataIndex].datasets[1].data.push(hour.clouds);
+        //data[dataIndex].datasets[2].data.push(hour.sunLevel*100);
       });
 
-      var myNewChart = new Chart(ctx01).Bar(data[0], []);;
-      var myNewChart = new Chart(ctx02).Bar(data[1], []);;
-      var myNewChart = new Chart(ctx03).Bar(data[2], []);;
+      var options = {
+        scaleOverride : true,
+        scaleSteps : 10,
+        scaleStepWidth : 10,
+        scaleStartValue : 0,
+      };
+
+
+      var myNewChart = new Chart(ctx01).Bar(data[0], options);;
+      var myNewChart = new Chart(ctx02).Bar(data[1], options);;
+      var myNewChart = new Chart(ctx03).Bar(data[2], options);;
 
       //console.log(data);
       //console.log("ok");
