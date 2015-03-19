@@ -71,28 +71,28 @@ angular.module('greenEnergySaver')
           datasets: [
               {
                   label: "Sun Level",
-                  fillColor: "rgba(0,220,0,0.5)",
-                  strokeColor: "rgba(220,220,220,0.8)",
-                  highlightFill: "rgba(220,220,220,0.75)",
+                  fillColor: "rgba(0,220,0,1)",
+                  strokeColor: "rgba(220,220,220,1)",
+                  highlightFill: "rgba(220,220,220,1)",
                   highlightStroke: "rgba(220,220,220,1)",
                   data: []
-              }/*,
+              },
               {
                   label: "Clouds",
-                  fillColor: "rgba(220,220,220,0.5)",
-                  strokeColor: "rgba(220,220,220,0.8)",
+                  fillColor: "rgba(220,220,220,0.25)",
+                  strokeColor: "rgba(220,220,220,0.5)",
                   highlightFill: "rgba(220,220,220,0.75)",
                   highlightStroke: "rgba(220,220,220,1)",
                   data: []
               },
               {
                   label: "Sun Phase",
-                  fillColor: "rgba(220,220,0,0.5)",
-                  strokeColor: "rgba(220,220,220,0.8)",
+                  fillColor: "rgba(220,220,0,0.25)",
+                  strokeColor: "rgba(220,220,220,0.5)",
                   highlightFill: "rgba(220,220,220,0.75)",
                   highlightStroke: "rgba(220,220,220,1)",
                   data: []
-              },*/
+              },
           ]
       };
       var data02 = jQuery.extend(true, {}, data01);
@@ -115,9 +115,10 @@ angular.module('greenEnergySaver')
         }
         data[dataIndex].labels.push(hour.time.getHours()+" - " + (hour.time.getHours()+3));
         data[dataIndex].datasets[0].data.push(hour.powerLevel);
-        //data[dataIndex].datasets[1].data.push(hour.clouds);
-        //data[dataIndex].datasets[2].data.push(hour.sunLevel*100);
+        data[dataIndex].datasets[1].data.push(hour.clouds);
+        data[dataIndex].datasets[2].data.push(hour.sunLevel*100);
       });
+
 
       var options = {
         scaleOverride : true,
@@ -127,9 +128,9 @@ angular.module('greenEnergySaver')
       };
 
 
-      var myNewChart = new Chart(ctx01).Bar(data[0], options);;
-      var myNewChart = new Chart(ctx02).Bar(data[1], options);;
-      var myNewChart = new Chart(ctx03).Bar(data[2], options);;
+      var myNewChart = new Chart(ctx01).Line(data[0], options);;
+      var myNewChart = new Chart(ctx02).Line(data[1], options);;
+      var myNewChart = new Chart(ctx03).Line(data[2], options);;
 
       //console.log(data);
       //console.log("ok");
