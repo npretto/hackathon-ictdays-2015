@@ -1,1 +1,37 @@
-h1 previsione solare
+div(ng-controller="previsioneController")
+  h1 {{city}}
+
+  canvas#sunChart(width="700" height="400")
+
+  table
+    tr
+      td(ng-non-bindable)
+        | ora
+      td(ng-non-bindable)
+        | $ nuvole
+      td(ng-non-bindable)
+        | {{hour.sunrise}}
+      td(ng-non-bindable)
+        | {{hour.sunset}}
+      td(ng-non-bindable)
+        | % sole ora
+      td(ng-non-bindable)
+        | midSun
+      td()
+        | POWER
+    tr.weather(ng-repeat="hour in hours")
+      td
+        | {{hour.time | date:'HH:mm '}}
+      td
+        | {{hour.clouds}}
+      td
+        | {{hour.sunrise | date:' HH:mm '}}
+      td 
+        | {{hour.sunset | date:' HH:mm '}}
+      td
+        | {{hour.sunLevel}}
+      td
+        | {{hour.midSun | date:' HH:mm:ss '}}
+      td
+        | {{hour.powerLevel}}
+
