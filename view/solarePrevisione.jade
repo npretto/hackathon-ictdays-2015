@@ -1,7 +1,12 @@
-div(ng-controller="previsioneController")
+div()
   h1 {{city}}
 
-  canvas#sunChart(width="700" height="400")
+  h3 Oggi
+  canvas#sunChart01(width="700" height="400")
+  h3 Domani
+  canvas#sunChart02(width="700" height="400")
+  h3 Dopodomani
+  canvas#sunChart03(width="700" height="400")
 
   table
     tr

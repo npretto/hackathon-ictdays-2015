@@ -60,9 +60,12 @@ angular.module('greenEnergySaver')
         });
       });
 
-      var ctx = $("#sunChart").get(0).getContext("2d");
+      var ctx01 = $("#sunChart01").get(0).getContext("2d");
+      var ctx02 = $("#sunChart02").get(0).getContext("2d");
+      var ctx03 = $("#sunChart03").get(0).getContext("2d");
+
       // This will get the first returned node in the jQuery collection.
-      var data = {
+      var data01 = {
           labels: [],
           datasets: [
               {
@@ -75,16 +78,55 @@ angular.module('greenEnergySaver')
               }
           ]
       };
+      var data02 = {
+          labels: [],
+          datasets: [
+              {
+                  label: "Sun Level",
+                  fillColor: "rgba(220,220,220,0.5)",
+                  strokeColor: "rgba(220,220,220,0.8)",
+                  highlightFill: "rgba(220,220,220,0.75)",
+                  highlightStroke: "rgba(220,220,220,1)",
+                  data: []
+              }
+          ]
+      };
+      var data03 = {
+          labels: [],
+          datasets: [
+              {
+                  label: "Sun Level",
+                  fillColor: "rgba(220,220,220,0.5)",
+                  strokeColor: "rgba(220,220,220,0.8)",
+                  highlightFill: "rgba(220,220,220,0.75)",
+                  highlightStroke: "rgba(220,220,220,1)",
+                  data: []
+              }
+          ]
+      };
+      var data = [data01,data02,data03];
+      var dataIndex = 0;
+      var currentDay = $scope.hours[0].time.getDay();
 
-      $scope.hours.forEach(function(hour)
+      $scope.hours.some(function(hour)
       {
-        data.labels.push(hour.time.getHours());
-        data.datasets[0].data.push(hour.powerLevel);
+        console.log(currentDay);
+        if(currentDay!=hour.time.getDay())
+        {
+          console.log(">"+currentDay +"!=!" +hour.time);
+          console.log("<"+dataIndex)
+          currentDay=hour.time.getDay();
+          dataIndex++;
+          if(dataIndex>2)
+            return true;
+        }
+        data[dataIndex].labels.push(hour.time.getHours()+" - " + (hour.time.getHours()+3));
+        data[dataIndex].datasets[0].data.push(hour.powerLevel);
       });
 
-      var myNewChart = new Chart(ctx).Bar(data, []);;
-      
-
+      var myNewChart = new Chart(ctx01).Bar(data[0], []);;
+      var myNewChart = new Chart(ctx02).Bar(data[1], []);;
+      var myNewChart = new Chart(ctx03).Bar(data[2], []);;
 
       //console.log(data);
       //console.log("ok");
@@ -99,7 +141,7 @@ angular.module('greenEnergySaver')
 //    interpolate(midSun,times.sunset ,midHour);
 function interpolate(start,end,date)
 {
-  console.log((date.getTime() - start.getTime()) +" / "+(end.getTime()-start.getTime()));
+  //console.log((date.getTime() - start.getTime()) +" / "+(end.getTime()-start.getTime()));
   return ( (date.getTime() - start.getTime()) / (end.getTime()-start.getTime()) );
   //return (date.getTime() - times.sunrise.getTime()) / (midSun.getTime()-times.sunrise.getTime()))
 }
