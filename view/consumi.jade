@@ -14,8 +14,12 @@ canvas#chart(width="700" height="400")
           | €/Kw
 
   .col-sm-6
-    h3  Guadagno totale:
-      p{{ (guadagnoTotale() | number:2) + "€"}}
+    h3  Guadagno:
+      p{{ (guadagno() | number:2) + "€"}}
+    h3 Risparmio:
+      p{{ (risparmio() | number:2) + "€"}}
+    h3 Totale
+      p{{ ((guadagno()+risparmio()) | number:2) + "€"}}
 
 //table
   tr

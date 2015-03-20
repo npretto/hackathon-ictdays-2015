@@ -2,12 +2,12 @@
 
 angular.module('greenEnergySaver')
   .controller('homePageController', function ($scope,$http) {
-    $scope.prezzoVendita=0.12;
-    $scope.prezzoAcquisto=0.17;
+    $scope.prezzoVendita=0.06;
+    $scope.prezzoAcquisto=0.08;
     $scope.intervals = {};
     $scope.quarters = [];
 
-    $scope.guadagnoTotale = function()
+    $scope.guadagno = function()
     {
       var sum = 0;
       for(var key in $scope.intervals)
@@ -15,6 +15,23 @@ angular.module('greenEnergySaver')
         sum+= $scope.intervals[key].price();
       }
       return sum;
+    }
+
+    $scope.risparmio = function()
+    {
+      var sum = 0;
+      for(var key in $scope.intervals)
+      {
+        //console.log($scope.intervals[key].consumo)
+        sum+= parseInt($scope.intervals[key].consumo);
+      }
+      console.log(sum)
+      return sum*$scope.prezzoAcquisto/1000;
+    }
+
+    $scope.risparmio = function()
+    {
+      return $scope.costo/$scope.risparmio();
     }
 
     $http.get('/data/consumi.json').
@@ -29,9 +46,9 @@ angular.module('greenEnergySaver')
           diff:0,
           price: function() {
             if(this.diff>0)
-              return this.diff*$scope.prezzoVendita;
+              return this.diff*$scope.prezzoVendita/1000;
             else
-              return this.diff*$scope.prezzoAcquisto;
+              return this.diff*$scope.prezzoAcquisto/1000;
           }
         };
       });
