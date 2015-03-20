@@ -1,1 +1,15 @@
-h1 pagina dei consumi
+h1 consumi
+
+canvas#chart(width="700" height="400")
+
+table
+  tr
+    td intervall
+    td consumo
+    td produzione
+    td diff
+  tr(ng-repeat="interval in intervals")
+    td {{interval.start}}
+    td {{interval.consumo}}
+    td {{interval.produzione}}
+    td {{interval.diff}}
