@@ -74,32 +74,36 @@ angular.module('greenEnergySaver')
           //console.log(interval)
           var date = new Date(interval.timePeriod.start);
           var current = $scope.intervals[date]
-          current.produzione = interval.value;
-          current.diff = current.produzione - current. consumo;
-
-          var quarter = $scope.quarters[date.getHours()+"-"+date.getMinutes()];
-          if(quarter == null)
+          //console.log(current)
+          if(current != null)
           {
-            console.log(date);
-            quarter = {consumo:[],produzione:[],diff:[]};
-            $scope.quarters[date.getHours()+"-"+date.getMinutes()] = quarter;
+            current.produzione = interval.value;
+            current.diff = current.produzione - current. consumo;
+
+            var quarter = $scope.quarters[date.getHours()+"-"+date.getMinutes()];
+            if(quarter == null)
+            {
+              //console.log(date);
+              quarter = {consumo:[],produzione:[],diff:[]};
+              $scope.quarters[date.getHours()+"-"+date.getMinutes()] = quarter;
+            }
+            quarter.consumo.push(current.consumo);
+            quarter.produzione.push(current.produzione);
+            quarter.diff.push(current.diff);
+
+            
+
+            /*graphData.labels.push("aa")
+            graphData.datasets[0].data.push(current.produzione);
+            graphData.datasets[1].data.push(current.consumo);
+            graphData.datasets[2].data.push(current.diff);*/
           }
-          quarter.consumo.push(current.consumo);
-          quarter.produzione.push(current.produzione);
-          quarter.diff.push(current.diff);
-
-          
-
-          /*graphData.labels.push("aa")
-          graphData.datasets[0].data.push(current.produzione);
-          graphData.datasets[1].data.push(current.consumo);
-          graphData.datasets[2].data.push(current.diff);*/
         });
         console.log($scope.quarters)
         for(var key in $scope.quarters){
-          console.log(key);
+          //console.log(key);
           var quarter = $scope.quarters[key];
-          console.log(quarter)
+          //console.log(quarter)
           //console.log(average(quarter.consumo))
           quarter.consumoMedia=average(quarter.consumo);
           quarter.produzioneMedia=average(quarter.produzione);
@@ -129,6 +133,6 @@ function average(arr)
     sum+=parseInt(arr[n]);
     length++;
   }
-  console.log(sum+"/"+arr.length)
+  //console.log(sum+"/"+arr.length)
   return sum/arr.length;
 }
