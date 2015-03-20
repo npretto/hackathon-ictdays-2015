@@ -1,15 +1,32 @@
 h1 consumi
 
 canvas#chart(width="700" height="400")
+.row
+  .col-sm-6
+    .row
+      .col-sm-12
+        label prezzo vendita
+          input(type="number", ng-model="prezzoVendita",step="0.01")
+          | €/Kw
+      .col-sm-12
+        label prezzo acquisto
+          input(type="number", ng-model="prezzoAcquisto", step="0.01")
+          | €/Kw
 
-table
+  .col-sm-6
+    h3  Guadagno totale:
+      p{{ (guadagnoTotale() | number:2) + "€"}}
+
+//table
   tr
     td intervall
     td consumo
     td produzione
     td diff
+    td prezzo€€€
   tr(ng-repeat="interval in intervals")
     td {{interval.start}}
     td {{interval.consumo}}
     td {{interval.produzione}}
     td {{interval.diff}}
+    td {{interval.price()}}

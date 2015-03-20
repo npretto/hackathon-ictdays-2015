@@ -2,8 +2,21 @@
 
 angular.module('greenEnergySaver')
   .controller('homePageController', function ($scope,$http) {
+    $scope.prezzoVendita=0.12;
+    $scope.prezzoAcquisto=0.17;
     $scope.intervals = {};
     $scope.quarters = [];
+
+    $scope.guadagnoTotale = function()
+    {
+      var sum = 0;
+      for(var key in $scope.intervals)
+      {
+        sum+= $scope.intervals[key].price();
+      }
+      return sum;
+    }
+
     $http.get('/data/consumi.json').
     success(function(data, status, headers, config) {
       data.entry.IntervalReading.forEach(function(interval)
@@ -12,6 +25,14 @@ angular.module('greenEnergySaver')
         $scope.intervals[new Date(interval.timePeriod.start)] = {
           start: interval.timePeriod.start,
           consumo: interval.value,
+          produzione:0,
+          diff:0,
+          price: function() {
+            if(this.diff>0)
+              return this.diff*$scope.prezzoVendita;
+            else
+              return this.diff*$scope.prezzoAcquisto;
+          }
         };
       });
 
@@ -84,7 +105,7 @@ angular.module('greenEnergySaver')
           quarter.produzioneMedia=average(quarter.produzione);
           quarter.diffMedia=average(quarter.diff);
 
-          graphData.labels.push("aa")
+          graphData.labels.push(key)
           graphData.datasets[0].data.push(quarter.produzioneMedia);
           graphData.datasets[1].data.push(quarter.consumoMedia);
           graphData.datasets[2].data.push(quarter.diffMedia);
