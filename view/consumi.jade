@@ -12,14 +12,19 @@ canvas#chart(width="700" height="400")
         label prezzo acquisto
           input(type="number", ng-model="prezzoAcquisto", step="0.01")
           | €/Kw
-
+      .col-sm-12
+        label costo pannelli
+          input(type="number", ng-model="costoPannelli", step="0.01")
+          | €
   .col-sm-6
     h3  Guadagno:
-      p{{ (guadagno() | number:2) + "€"}}
+      p{{ (guadagno() | number:2) + "€/anno"}}
     h3 Risparmio:
-      p{{ (risparmio() | number:2) + "€"}}
+      p{{ (risparmio() | number:2) + "€/anno"}}
     h3 Totale
-      p{{ ((guadagno()+risparmio()) | number:2) + "€"}}
+      p{{ ((guadagno()+risparmio()) | number:2) + "€/anno"}}
+    h3 {{"La spesa è ripresa in " + (anni() |number:0) + " anni" }}
+    //h3 {{anni()}}
 
 //table
   tr

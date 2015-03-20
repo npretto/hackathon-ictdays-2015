@@ -4,6 +4,7 @@ angular.module('greenEnergySaver')
   .controller('homePageController', function ($scope,$http) {
     $scope.prezzoVendita=0.06;
     $scope.prezzoAcquisto=0.08;
+    $scope.costoPannelli = 10000;
     $scope.intervals = {};
     $scope.quarters = [];
 
@@ -29,9 +30,9 @@ angular.module('greenEnergySaver')
       return sum*$scope.prezzoAcquisto/1000;
     }
 
-    $scope.risparmio = function()
+    $scope.anni = function()
     {
-      return $scope.costo/$scope.risparmio();
+      return $scope.costoPannelli/$scope.risparmio();
     }
 
     $http.get('/data/consumi.json').
