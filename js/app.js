@@ -10,23 +10,15 @@ var app = angular
   ])
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/consumi/', {
+      .when('/recupero/', {
         templateUrl: 'view/consumi.html',
         controller: 'homePageController'
       })
-      .when('/solare/costi/', {
-        templateUrl: 'view/solareCosti.html',
-        controller: 'solareCostiController'
-      })
-      .when('/solare/previsione/', {
+      .when('/previsione/', {
         templateUrl: 'view/solarePrevisione.html',
         controller: 'previsioneController'
       })
-      .when('/solare/', {
-        templateUrl: 'view/solare.html',
-        controller: 'solareController'
-      })
       .otherwise({
-        redirectTo: '/consumi/'
+        redirectTo: '/recupero/'
       });
   });
