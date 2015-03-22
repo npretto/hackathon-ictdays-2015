@@ -32,7 +32,7 @@ angular.module('greenEnergySaver')
 
     $scope.anni = function()
     {
-      return $scope.costoPannelli/$scope.risparmio();
+      return $scope.costoPannelli/($scope.risparmio()+$scope.guadagno());
     }
 
     $http.get('/data/consumi.json').
@@ -127,10 +127,13 @@ angular.module('greenEnergySaver')
           quarter.produzioneMedia=average(quarter.produzione);
           quarter.diffMedia=average(quarter.diff);
 
-          graphData.labels.push(key)
-          graphData.datasets[0].data.push(quarter.produzioneMedia);
-          graphData.datasets[1].data.push(quarter.consumoMedia);
-          graphData.datasets[2].data.push(quarter.diffMedia);
+          if(key!="2-45")
+          {
+            graphData.labels.push(key)
+            graphData.datasets[0].data.push(quarter.produzioneMedia);
+            graphData.datasets[1].data.push(quarter.consumoMedia);
+            graphData.datasets[2].data.push(quarter.diffMedia);
+         }
         }
 
         var myNewChart = new Chart(ctx).Line(graphData,{pointDot:false});
